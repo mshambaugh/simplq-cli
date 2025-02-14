@@ -4,8 +4,8 @@ TARGET=simplq-cli
 
 all: $(TARGET)
 
-$(TARGET): main.c
-	$(CC) $(CFLAGS) -o $(TARGET) main.c
+$(TARGET): src/main.c
+	$(CC) $(CFLAGS) -o $(TARGET) src/main.c -lcurl
 
 clean:
 	rm -f $(TARGET)
