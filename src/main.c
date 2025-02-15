@@ -117,7 +117,17 @@ void print_help() {
     printf("Commands:\n");
     printf("  get_all_queues\n");
     printf("  get_all_entries <queue_id>\n");
+    printf("  get_pending_entries <queue_id>\n");
+    printf("  get_processing_entries <queue_id>\n");
+    printf("  get_completed_entries <queue_id>\n");
+    printf("  get_error_entries <queue_id>\n");
+    printf("  get_next_entry <queue_id>\n");
+    printf("  get_entry <queue_id> <entry_id>\n");
     printf("  update_entry <queue_id> <entry_id> <json_payload>\n");
+    printf("  set_entry_pending <queue_id> <entry_id>\n");
+    printf("  set_entry_processing <queue_id> <entry_id>\n");
+    printf("  set_entry_complete <queue_id> <entry_id>\n");
+    printf("  set_entry_error <queue_id> <entry_id>\n");
     printf("  create_queue <json_payload>\n");
     printf("  update_queue <queue_id> <json_payload>\n");
     printf("  delete_queue <queue_id>\n");
@@ -153,24 +163,85 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(command, "get_all_queues") == 0) {
         response = send_request(&client, "GET", "queues", NULL);
+
     } else if (strcmp(command, "get_all_entries") == 0 && argc >= 3) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries", argv[2]);
         response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_pending_entries") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/pending", argv[2]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_processing_entries") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/processing", argv[2]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_completed_entries") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/completed", argv[2]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_error_entries") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/error", argv[2]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_entry") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
+    } else if (strcmp(command, "get_next_entry") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/next", argv[2]);
+        response = send_request(&client, "GET", endpoint, NULL);
+
     } else if (strcmp(command, "update_entry") == 0 && argc >= 5) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
         response = send_request(&client, "PATCH", endpoint, argv[4]);
+
+    } else if (strcmp(command, "set_entry_pending") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/pending", argv[2], argv[3]);
+        response = send_request(&client, "PATCH", endpoint, argv[4]);
+
+    } else if (strcmp(command, "set_entry_processing") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/processing", argv[2], argv[3]);
+        response = send_request(&client, "PATCH", endpoint, argv[4]);
+
+    } else if (strcmp(command, "set_entry_complete") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/complete", argv[2], argv[3]);
+        response = send_request(&client, "PATCH", endpoint, argv[4]);
+
+    } else if (strcmp(command, "set_entry_error") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/error", argv[2], argv[3]);
+        response = send_request(&client, "PATCH", endpoint, argv[4]);
+
+    } else if (strcmp(command, "delete_entry") == 0 && argc >= 4) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
+        response = send_request(&client, "DELETE", endpoint, NULL);
+
     } else if (strcmp(command, "create_queue") == 0 && argc >= 3) {
         response = send_request(&client, "POST", "queues", argv[2]);
+
     } else if (strcmp(command, "update_queue") == 0 && argc >= 4) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s", argv[2]);
         response = send_request(&client, "PATCH", endpoint, argv[3]);
+
     } else if (strcmp(command, "delete_queue") == 0 && argc >= 3) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s", argv[2]);
         response = send_request(&client, "DELETE", endpoint, NULL);
+
     } else {
         print_help();
         return 1;
