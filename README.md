@@ -1,6 +1,7 @@
 # simplq-cli
 A command line tool to access the SimplQ API.
 
+```
 Usage: simplqclient <command> [options]
 Commands:
   get_all_queues
@@ -22,3 +23,4 @@ Commands:
   delete_queue <queue_id>
 Options:
   --config <file>   Specify a configuration file (default: simplqclient.config)
+```
