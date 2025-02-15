@@ -113,7 +113,7 @@ void load_config(SimplQClient *client, const char *config_file) {
 }
 
 void print_help() {
-    printf("Usage: simplqclient <command> [options]\n");
+    printf("Usage: simplq-cli <command> [options]\n");
     printf("Commands:\n");
     printf("  get_all_queues\n");
     printf("  get_all_entries <queue_id>\n");
