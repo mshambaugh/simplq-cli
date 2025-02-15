@@ -2,7 +2,7 @@
 A command line tool to access the SimplQ API.
 
 ```
-Usage: simplqclient <command> [options]
+Usage: simplq-cli <command> [options]
 Commands:
   get_all_queues
   get_all_entries <queue_id>
