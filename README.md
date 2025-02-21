@@ -14,6 +14,7 @@ Commands:
   get_entry <queue_id> <entry_id>
   create_entry <queue_id> <payload>
   update_entry <queue_id> <entry_id> <json_attribute_values>
+  delete_entry <queue_id> <entry_id>
   set_entry_pending <queue_id> <entry_id> <string_message>
   set_entry_processing <queue_id> <entry_id> <string_message>
   set_entry_complete <queue_id> <entry_id> <string_message>
