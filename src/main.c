@@ -125,6 +125,7 @@ void print_help() {
     printf("  get_entry <queue_id> <entry_id>\n");
     printf("  create_entry <queue_id> <payload>\n");
     printf("  update_entry <queue_id> <entry_id> <json_attribute_values>\n");
+    printf("  delete_entry <queue_id> <entry_id>\n");
     printf("  set_entry_pending <queue_id> <entry_id> <string_message>\n");
     printf("  set_entry_processing <queue_id> <entry_id> <string_message>\n");
     printf("  set_entry_complete <queue_id> <entry_id> <string_message>\n");
@@ -205,6 +206,16 @@ int main(int argc, char *argv[]) {
         snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
         response = send_request(&client, "PATCH", endpoint, argv[4]);
 
+    } else if (strcmp(command, "create_entry") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries", argv[2]);
+        response = send_request(&client, "POST", endpoint, argv[3]);
+
+    } else if (strcmp(command, "delete_entry") == 0 && argc >= 3) {
+        char endpoint[BUFFER_SIZE];
+        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
+        response = send_request(&client, "DELETE", endpoint, NULL);
+
     } else if (strcmp(command, "set_entry_pending") == 0 && argc >= 4) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/pending", argv[2], argv[3]);
@@ -224,16 +235,6 @@ int main(int argc, char *argv[]) {
         char endpoint[BUFFER_SIZE];
         snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s/error", argv[2], argv[3]);
         response = send_request(&client, "PATCH", endpoint, argv[4]);
-
-    } else if (strcmp(command, "delete_entry") == 0 && argc >= 4) {
-        char endpoint[BUFFER_SIZE];
-        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries/%s", argv[2], argv[3]);
-        response = send_request(&client, "DELETE", endpoint, NULL);
-
-    } else if (strcmp(command, "create_entry") == 0 && argc >= 3) {
-        char endpoint[BUFFER_SIZE];
-        snprintf(endpoint, BUFFER_SIZE, "queues/%s/entries", argv[2]);
-        response = send_request(&client, "POST", endpoint, argv[3]);
 
     } else if (strcmp(command, "create_queue") == 0 && argc >= 3) {
         response = send_request(&client, "POST", "queues", argv[2]);
