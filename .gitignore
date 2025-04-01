@@ -1,4 +1,5 @@
 build.sh
 simplqclient.config
 simplq-nucleus.config
+simplq-sandbox.config
 simplq-cli
